@@ -1,4 +1,4 @@
-@extends('layouts.adminlte_medical')
+@extends('layouts.adminhome')
 @section('content')
 <script>
     function checklogin(){
@@ -20,25 +20,7 @@
     $user_id = substr($url, $pos);
 
 ?>
-<!-- Content Header (Page header) -->
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">หมวดหมู่</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">หมวดหมู่</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
-
-<style>
+    <style>
         .modal-header, h4, .close {
             background-color: #5cb85c;
             color:white !important;
@@ -51,55 +33,74 @@
         .container-fluid-boxs{
 
         }
-        .card-p{
-            margin-left: 200px;
-            margin-right: 200px;
-        }
-        .content-header{
-            margin-left: 200px;
-            margin-right: 200px;
-        }
-</style>
+       
+      </style>
 <?php
-     
+       
         date_default_timezone_set("Asia/Bangkok");
         $date = date('Y-m-d');
 ?>
 <section class="col-md-12">
-    <div class="card-p shadow mb-4 ">
-        <div class="card-header shadow lg py-3 ">
-            <h6 class="float-sm-left  font-weight-bold text-primary">รายการหมวดหมู่</h6>
-            <a href="" class="float-sm-right btn btn-sm btn-success shadow-lg" data-toggle="modal" data-target="#AddModal"><i class="fas fa-plus-circle text-white-90" style="font-size:15px "></i>&nbsp; เพิ่มหมวดหมู่</a>
-        </div>
 
-        <div class="card-body shadow lg">
-            <table class="table table-hover" id="example1" width="100%" >
-                    <thead>
-                        <tr>
-                            <th style="text-align: center;color:#7B0099"width="10%">ลำดับ</th>
-                            <th style="text-align: center;color:#7B0099" >หมวดหมู่</th>
-                            <th style="text-align: center;color:#7B0099"width="15%">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php $number = 0; ?>
-                        @foreach ($cats as $cat)
-                            <?php $number++;  ?>
-                                <tr>
-                                    <td style="text-align: center;">{{ $number}}</td>
-                                    <td style="text-align: center;">{{$cat->CAT_NAME }}</td>
-                                    <td style="text-align: center;">
-                                        @if((Auth::user()->user_edit) == 'on' )
-                                        <a href="" data-toggle="modal" data-target="#EditModal{{$cat->CAT_ID}}"><i class="fas fa-fw fa-edit" style='font-size:15px;color:orange'></i> </a>
-                                        @endif
-                                        @if((Auth::user()->user_delete) == 'on' ) 
-                                        <a title="Delete" id="categorydelete" href="{{ url('setting/categorydestroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$cat->CAT_ID)}}" data-token="{{csrf_token()}}" data-id="{{$cat->CAT_ID}}"><i class="fas fa-fw fa-trash" style='font-size:15px;color:red'></i></a>
-                                        @endif
-                                   </td>
-                                </tr>
-
-                                <!-- Edit/.largeModal-->
-                                <div class="modal fade" id="EditModal{{$cat->CAT_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="app-content content">
+    <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                    <h3 class="content-header-title mb-0 d-inline-block">หมวดหมู่</h3>
+                    <div class="row breadcrumbs-top d-inline-block">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                                <!-- <li class="breadcrumb-item"><a href="#">สถานพยาบาล</a> -->
+                                </li>
+                                <li class="breadcrumb-item active">หมวดหมู่
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right col-md-6 col-12">
+                    <div class="btn-group float-md-right">  
+                        <a href="" class="float-sm-right btn btn-success btn-glow round px-2" data-toggle="modal" data-target="#AddModal"><i class="fas fa-plus-circle text-white-90 mr-1" style="font-size:15px "></i> เพิ่มหมวดหมู่</a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <section id="floating-point">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="card">   
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap shadow-lg">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-striped table-bordered sourced-data" >                                   
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center;color:#7B0099"width="10%">ลำดับ</th>
+                                                        <th style="text-align: center;color:#7B0099" >หมวดหมู่</th>                       
+                                                        <th style="text-align: center;color:#7B0099"width="15%">จัดการ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                    @foreach ($cats as $key => $item)
+                                                        <tr class="pull-up">
+                                                            <td align="center"> {{$key+1}}</td>
+                                                            <td style="text-align: left;">{{$item->CAT_NAME }}</td>
+                                                            <td style="text-align: center;">
+                                                                @if((Auth::user()->user_edit) == 'on' )
+                                                                <a class="btn btn-warning btn-glow round px-2" href="" data-toggle="modal" data-target="#EditModal{{$item->CAT_ID}}"><i class="fas fa-fw fa-edit" style='font-size:15px;color:white'></i> </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                           
+                                                                @endif
+                                                                @if((Auth::user()->user_delete) == 'on' )
+                                                                <a class="btn btn-danger btn-glow round px-2" title="Delete" id="categorydelete" href="{{ url('setting/categorydestroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$item->CAT_ID)}}" data-token="{{csrf_token()}}" data-id="{{$item->CAT_ID}}"><i class="fas fa-fw fa-trash font-small-5" style='font-size:15px;color:white'></i></a>
+                                                                @endif
+                                                            </td>                                                                                               
+                                                        </tr>
+                                                            <!-- Edit/.largeModal-->
+                                <div class="modal fade" id="EditModal{{$item->CAT_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                     <div class="modal-header shadow lg">
@@ -114,10 +115,10 @@
                                                             <div class="form-row">
                                                                 <div class="col-md-12 mb-12 text-left">
                                                                     <label for="cat_name">หมวดหมู่ :</label>
-                                                                    <input value="{{$cat->CAT_NAME}}"  name ="CAT_NAME" id="cat_name" class="form-control" required>
+                                                                    <input value="{{$item->CAT_NAME}}"  name ="CAT_NAME" id="cat_name" class="form-control" required>
                                                                 </div>
                                                             </div>
-                                                            <input type="hidden" value="{{$cat->CAT_ID}}"  name ="CAT_ID" id="CAT_ID" class="form-control" >
+                                                            <input type="hidden" value="{{$item->CAT_ID}}"  name ="CAT_ID" id="CAT_ID" class="form-control" >
                                                     </div>
                                                     <div class="modal-footer shadow lg">
                                                     <button class="btn btn-info" type="submit" ><i class="fa fa-save fa-sm text-white-50" style="font-size:15px "></i>&nbsp;&nbsp;บันทึก </button>
@@ -128,16 +129,21 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-                        @endforeach
-                    </tbody>
-                </table>
+                                                    @endforeach
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Add/.largeModal-->
 <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -167,7 +173,12 @@
             </div>
         </div>
     </div>
+
+
 </section>
+
+
+@endsection
 <script>
     $('body').on('keydown', 'input, select, textarea', function(e) {
     var self = $(this)
@@ -194,4 +205,34 @@ function chkNumber(ele){
     }
 
 </script>
-@endsection
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#myForm').validate({
+            rules:{
+                sup_name:{
+                    required:true,
+                },
+                sup_tel:{
+                    required:true,
+                },
+                sup_address:{
+                    required:true,
+                }
+            },
+            messages:{
+
+            },
+            errorElement:'span',
+            errorPlacement:function(error,element){
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight:function(element,errorClass,validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight:function(element,errorClass,validClass){
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>

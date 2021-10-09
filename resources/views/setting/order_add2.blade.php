@@ -1,5 +1,4 @@
-@extends('layouts.adminhome')
-
+@extends('layouts.adminlte_medical')
 @section('content')
 <script>
     function checklogin(){
@@ -21,54 +20,62 @@
     $user_id = substr($url, $pos);
 
 ?>
- <style>
-    .modal-header, h4, .close {
-        background-color: #5cb85c;
-        color:white !important;
-        text-align: center;
-        font-size: 30px;
-    }
-    .modal-footer {
-        background-color: #f9f9f9;
-    }
-    .container-fluid-boxs{
+<!-- Content Header (Page header) -->
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">รายการสั่งซื้อ</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">ทำรายการสั่งซื้อ</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <style>
+        .modal-header, h4, .close {
+            background-color: #5cb85c;
+            color:white !important;
+            text-align: center;
+            font-size: 30px;
+        }
+        .modal-footer {
+            background-color: #f9f9f9;
+        }
+        .container-fluid-boxs{
 
-    }
-   
-  </style>
+        }
+        .card-p{
+            margin-left: 80px;
+            margin-right: 80px;
+        }
+        .content-header{
+            margin-left: 80px;
+            margin-right: 80px;
+        }
+      </style>
 
-<div class="app-content content">
-    <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-header row">
-                <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">ทำรายการสั่งซื้อ</h3>
-                    <div class="row breadcrumbs-top d-inline-block">
-                        <div class="breadcrumb-wrapper col-12">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
-                                </li>
-                             
-                                <li class="breadcrumb-item active">ทำรายการสั่งซื้อ
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-header-right col-md-6 col-12">
-                    <div class="btn-group float-md-right">                   
-                        <a href="{{ url('setting/order/'.(Auth::user()->store_id).'/'.(Auth::user()->id)) }}" class="float-sm-right btn btn-info btn-glow round px-2"><i class="fas fa-hand-point-left text-white-90 mr-1" style="font-size:15px "></i>ย้อนกลับ</a>                                                                 
-                    </div>
-                </div>
-            </div>
-            <div class="content-body">
-                <section id="floating-point">
-                    <div class="row">
-                        <div class="col-md-12"> 
-                            <div class="card">   
-                                <div class="card-body shadow lg ">
+<?php
+    
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+?>
+<section class="col-md-12">
+    <div class="card-p shadow mb-4 ">
+        <div class="card-header shadow lg">
+            <h6 class="float-sm-left  font-weight-bold text-primary">ทำรายการสั่งซื้อ</h6>
+            <a href="{{ url('setting/order/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}" class="float-sm-right btn btn-sm btn-warning shadow-lg"><i class="fas fa-chevron-circle-left text-white-50" style="font-size:18px "></i>&nbsp; ย้อนกลับ</a>
+        </div>
 
-                                <form action="{{ route('setting.order_save')}}" method="POST" enctype="multipart/form-data">
+
+
+        <div class="card-body shadow lg">
+            <form action="{{ route('setting.order_save')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="idstore" value="{{(Auth::user()->store_id)}}" >
                     <input type="hidden" name="iduser" value="{{(Auth::user()->id)}}" >
@@ -85,7 +92,7 @@
                         </div>
                         <div class="col-md-2 mb-2 text-left">
                             <label for="ORDER_YEAR">ปีงบประมาณ :</label>
-                            <select name="ORDER_YEAR" id="ORDER_YEAR" class="form-control" style=" font-family: 'Kanit', sans-serif;" required>
+                            <select name="ORDER_YEAR" id="ORDER_YEAR" class="form-control input-sm" style=" font-family: 'Kanit', sans-serif;" required>
                                         <option value="">--เลือก--</option>
                                         @foreach ($years as $year)
                                             <option value="{{ $year ->YEAR_ID }}" >{{ $year-> YEAR_NAME}}</option>
@@ -105,7 +112,7 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3 text-left">
                                 <label for="ORDER_SUP">supplies :</label>
-                                    <select name="ORDER_SUP" id="ORDER_SUP" class="form-control " style=" font-family: 'Kanit', sans-serif;" required>
+                                    <select name="ORDER_SUP" id="ORDER_SUP" class="form-control input-sm" style=" font-family: 'Kanit', sans-serif;" required>
                                         <option value="">--เลือก--</option>
                                         @foreach ($sups as $sup)
                                             <option value="{{ $sup ->SUP_ID }}" >{{ $sup-> SUP_NAME}}</option>
@@ -114,7 +121,7 @@
                             </div>
                             <div class="col-md-6 mb-3 text-left">
                                 <label for="ORDER_APPROVER">ผู้เห็นชอบ :</label>
-                                    <select name="ORDER_APPROVER" id="ORDER_APPROVER" class="form-control" style=" font-family: 'Kanit', sans-serif;" required>
+                                    <select name="ORDER_APPROVER" id="ORDER_APPROVER" class="form-control input-sm" style=" font-family: 'Kanit', sans-serif;" required>
                                         <option value="">--เลือก--</option>
                                         @foreach ($userAs as $userA)
                                         <option value="{{ $userA ->id }}" >{{ $userA-> name}} {{ $userA-> lname}}&nbsp;&nbsp; ตำแหน่ง &nbsp;{{ $userA->POSITION_NAME}}</option>
@@ -182,16 +189,10 @@
                 </div>
             </form>
 
-
-                    </div>
-                        </div>
-                    </div>               
-                </section>
-            </div>
         </div>
     </div>
 </div>
-
+</section>
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 
 <script>
@@ -237,7 +238,7 @@ $('.addRow').on('click',function(){
             $(this).parent().parent().remove();
      });
 </script>
-@endsection
+
 <script>
     $('body').on('keydown', 'input, select, textarea', function(e) {
     var self = $(this)
@@ -264,3 +265,4 @@ function chkNumber(ele){
     }
 
 </script>
+@endsection

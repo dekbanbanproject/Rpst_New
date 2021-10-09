@@ -1,4 +1,4 @@
-@extends('layouts.adminlte_medical')
+@extends('layouts.adminhome')
 @section('content')
 <script>
     function checklogin(){
@@ -6,6 +6,7 @@
     }
 </script>
 <?php
+
     if(Auth::check()){
         $status = Auth::user()->status;
         $id_user = Auth::user()->name;
@@ -19,7 +20,7 @@
     $user_id = substr($url, $pos);
 
 ?>
-  <style>
+     <style>
     .modal-header, h4, .close {
         background-color: #5cb85c;
         color:white !important;
@@ -32,188 +33,182 @@
     .container-fluid-boxs{
 
     }
-    .card-p{
-        margin-left: 80px;
-        margin-right: 80px;
-    }
-    .content-header{
-        margin-left: 80px;
-        margin-right: 80px;
-    }
-  </style>
+     </style>
+<?php
+       
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+        use App\Http\Controllers\ClinicsettingController;
+?>
+<section class="col-md-12">
 
-  <?php
-         
-          date_default_timezone_set("Asia/Bangkok");
-          $date = date('Y-m-d');
-
-          use App\Http\Controllers\ClinicsettingController;
-        //   use App\Http\Controllers\HosController;
-  ?>
-<!-- Content Header (Page header) -->
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">รายการยา</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">รายการยา</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-
- <section class="col-md-12">
-    <div class="card-p shadow lg">
-        <div class="card-header shadow lg ">
-            <h6 class="float-sm-left  font-weight-bold text-primary">รายการยา</h6>
-             <div align="right">
-
-                    <a href="{{url('setting/drug_create/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class=" btn btn-sm btn-info shadow-lg"><i class="fas fa-plus-circle text-white-90" style="font-size:15px "></i>&nbsp;&nbsp; เพิ่มรายการยา</a>&nbsp;&nbsp;
-                 
-                    <a href="" class=" btn btn-sm btn-danger shadow-lg" data-toggle="modal" data-target="#exampleModal{{(Auth::user()->store_id)}}"><i class="fas fa-file-excel text-white-90" style="font-size:15px "></i>&nbsp;&nbsp; นำเข้าด้วย Excel</a>&nbsp;&nbsp;
-                    <a href="{{url('hos/drug_hos/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="btn btn-sm btn-success shadow-lg"><i class="fas fa-plus-circle text-white-90" style="font-size:15px "></i>&nbsp;&nbsp; เพิ่มรายการยาจาก Hos</a>&nbsp;&nbsp;
-                    <a href="{{url('setting/drug_print/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="float-sm-right btn btn-sm btn-warning shadow-lg"><i class="fas fa-print text-white-90" style="font-size:15px "></i>&nbsp;&nbsp; Print Drug all&nbsp;&nbsp;</a>
-                  
+<div class="app-content content">
+    <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                    <h3 class="content-header-title mb-0 d-inline-block">รายการยา</h3>
+                    <div class="row breadcrumbs-top d-inline-block">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                                <!-- <li class="breadcrumb-item"><a href="#">สถานพยาบาล</a> -->
+                                </li>
+                                <li class="breadcrumb-item active">รายการยา
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
-    </div>
-        <div class="card-body shadow lg">
-        <table class="table table-hover" id="example1" width="100%" >
-                    <thead>
-                        <tr>
-                            <th style="text-align: center;color:#7B0099" width="2%">ลำดับ</th>
-                            <th style="text-align: center;color:#7B0099" width="7%">Icode</th>
-                            <th style="text-align: center;color:#7B0099" width="8%">รูปภาพ</th>
-                            <th style="text-align: center;color:#7B0099" >รายการยา</th>
-                            <th style="text-align: center;color:#7B0099" width="8%">หน่วยนับ</th>
+                <div class="content-header-right col-md-6 col-12">
+                    <div class="btn-group float-md-right"> 
+                        <a href="{{url('setting/drug_create/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="float-sm-right btn btn-success btn-glow round px-2"><i class="fas fa-plus-circle text-white-90 mr-1" style="font-size:15px "></i>เพิ่มรายการยา</a>&nbsp;&nbsp;                 
+                        <a href="" class="float-sm-right btn btn-info btn-glow round px-2" data-toggle="modal" data-target="#exampleModal{{(Auth::user()->store_id)}}"><i class="fas fa-file-excel text-white-90 mr-1" style="font-size:15px "></i> นำเข้าด้วย Excel</a>&nbsp;&nbsp;
+                        <a href="{{url('hos/drug_hos/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="float-sm-right btn btn-success btn-glow round px-2"><i class="fas fa-plus-circle text-white-90 mr-1" style="font-size:15px "></i> เพิ่มรายการยาจาก Hos</a>&nbsp;&nbsp;
+                        <a href="{{url('setting/drug_print/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="float-sm-right btn btn-warning btn-glow round px-2"><i class="fas fa-print text-white-90 mr-1" style="font-size:15px "></i>Print Drug all&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <section id="floating-point">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="card">   
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap shadow-lg">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-striped table-bordered sourced-data" >                                   
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center;color:#7B0099" width="2%">ลำดับ</th>
+                                                        <th style="text-align: center;color:#7B0099" width="10%">Icode</th>
+                                                        <th style="text-align: center;color:#7B0099" width="8%">รูปภาพ</th>
+                                                        <th style="text-align: center;color:#7B0099" >รายการยา</th>
+                                                        <th style="text-align: center;color:#7B0099" width="8%">หน่วยนับ</th>
+                                                        <th style="text-align: center;color:#7B0099" width="7%">รับ</th>
+                                                        <th style="text-align: center;color:#7B0099" width="10%">เบิก-จ่าย</th>
+                                                        <th style="text-align: center;color:#7B0099" width="10%">จ่าย(Hosxp)</th>
+                                                        <th style="text-align: center;color:#7B0099" width="8%">คงเหลือ</th>
+                                                        <th style="text-align: center;color:#7B0099 "width="12%">จัดการ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                    @foreach ($drugs as $key => $drug)
+                                                        <tr class="pull-up">   
+                                                            <td style="text-align: center;">{{$key+1}}</td>
+                                                            <td style="text-align: center;" width="10%">{{$drug->DRUG_CODE }}<?php echo DNS1D::getBarcodeHTML($drug->DRUG_CODE, 'C128');  ?></td>
+                                                            <td style="text-align: center;"><img src="data:image/png;base64,{{ chunk_split(base64_encode($drug->DRUG_IMG)) }}" alt="Image" class="img-thumbnail" style="height:60px; width:70px;"> </td>
+                                                            <td style="text-align: center;">{{$drug->DRUG_NAME }}</td>
+                                                            <td style="text-align: center;">{{$drug->UNIT_NAME }}</td>
+                                                            <td style="text-align: center;">{{number_format(ClinicsettingController::sumrecieve($drug->DRUG_ID))}}</td>
+                                                            <td style="text-align: center;">{{number_format(ClinicsettingController::sumpay($drug->DRUG_ID))}}</td>
+                                                            <td style="text-align: center;">{{number_format(ClinicsettingController::sumdrughos_qty($drug->DRUG_CODE))}}</td>
 
-                            {{-- <th style="text-align: center;color:#7B0099" width="8%">หมวดหมู่</th> --}}
-                            <th style="text-align: center;color:#7B0099" width="7%">รับ</th>
-                            <th style="text-align: center;color:#7B0099" width="10%">เบิก-จ่าย</th>
-                            {{-- <th style="text-align: center;color:#7B0099" width="10%">จ่าย(คลีนิก)</th> --}}
-                            <th style="text-align: center;color:#7B0099" width="10%">จ่าย(Hosxp)</th>
-                            <th style="text-align: center;color:#7B0099" width="8%">คงเหลือ</th>
-                            <th style="text-align: center;color:#7B0099"width="12%">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php $number = 0; ?>
-                        @foreach ($drugs as $drug)
-                            <?php $number++;  ?>
-                                <tr>
-                                    <td style="text-align: center;">{{ $number}}</td>
-                                    <td style="text-align: center;">{{$drug->DRUG_CODE }}<?php echo DNS1D::getBarcodeHTML($drug->DRUG_CODE, 'C128');  ?></td>
-                                    <td style="text-align: center;"><img src="data:image/png;base64,{{ chunk_split(base64_encode($drug->DRUG_IMG)) }}" alt="Image" class="img-thumbnail" style="height:60px; width:70px;"> </td>
-                                    <td style="text-align: center;">{{$drug->DRUG_NAME }}</td>
-                                    <td style="text-align: center;">{{$drug->UNIT_NAME }}</td>
-                                    <td style="text-align: center;">{{number_format(ClinicsettingController::sumrecieve($drug->DRUG_ID))}}</td>
-                                    <td style="text-align: center;">{{number_format(ClinicsettingController::sumpay($drug->DRUG_ID))}}</td>
-                                    <td style="text-align: center;">{{number_format(ClinicsettingController::sumdrughos_qty($drug->DRUG_CODE))}}</td>
 
+                                                            @if(number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) == '0'  )
+                                                                <td style="text-align: center;color:#f1120a;background-color: #f8f597;font-size:20px;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
+                                                            @elseif( number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE))  >= '100')
+                                                                <td style="text-align: center;color:#8a18f5;background-color: #ffffff;font-size:20px;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
+                                                            @elseif( number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE))  <= '90' )
+                                                                <td style="text-align: center;color:#95E605;background-color: #ffffff;font-size:20px;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
+                                                            @else
+                                                                <td style="text-align: center;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
+                                                            @endif
 
-                                    @if(number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) == '0'  )
-                                        <td style="text-align: center;color:#f1120a;background-color: #f8f597;font-size:20px;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
-                                    @elseif( number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE))  >= '100')
-                                        <td style="text-align: center;color:#8a18f5;background-color: #ffffff;font-size:20px;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
-                                    @elseif( number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE))  <= '90' )
-                                        <td style="text-align: center;color:#95E605;background-color: #ffffff;font-size:20px;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
-                                    @else
-                                        <td style="text-align: center;">{{number_format(ClinicsettingController::sumtotalqty($drug->DRUG_CODE)) }}</td>
-                                    @endif
+                                                            <td style="text-align: center;" width="12%">                                       
+                                                                    <a class="btn btn-info btn-glow round px-2" href="{{ url('setting/sticker/'.(Auth::user()->store_id).'/'.(Auth::user()->id))  }}"><i class="fas fa-fw fa-qrcode" style='font-size:15px;color:white'></i></a>
+                                                                    @if((Auth::user()->user_edit) == 'on' )
+                                                                    <a class="btn btn-warning btn-glow round px-2" href="{{ url('setting/drug_edit/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$drug->DRUG_ID )}}"><i class="fas fa-fw fa-edit" style='font-size:15px;color:white'></i> </a>
+                                                                    @endif
+                                                             
+                                                                    @if((Auth::user()->user_delete) == 'on' ) 
+                                                                    <a class="btn btn-danger btn-glow round px-2" href="{{ url('setting/drugdestroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$drug->DRUG_ID)}}" onclick="return confirm('ต้องการที่จะลบข้อมูล ?')" ><i class="fas fa-fw fa-trash font-small-5" style='font-size:15px;color:white'></i></a>
+                                                                    @endif
+                                                            </td>                                                          
 
-                                    <td style="text-align: center;">                                       
-                                            <a href="{{ url('setting/sticker/'.(Auth::user()->store_id).'/'.(Auth::user()->id))  }}"><i class="fas fa-fw fa-qrcode" style='font-size:15px;color:green'></i></a>
-                                            @if((Auth::user()->user_edit) == 'on' )
-                                            <a href="{{ url('setting/drug_edit/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$drug->DRUG_ID )}}"><i class="fas fa-fw fa-edit" style='font-size:15px;color:orange'></i> </a>
-                                            @endif
-                                            &nbsp;&nbsp;
-                                            @if((Auth::user()->user_delete) == 'on' ) 
-                                            <a href="{{ url('setting/drugdestroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$drug->DRUG_ID)}}" onclick="return confirm('ต้องการที่จะลบข้อมูล ?')" ><i class="fas fa-fw fa-trash" style='font-size:15px;color:red'></i></a>
-                                            @endif
-                                    </td>
-                                </tr>
-                                <!-- Edit/.largeModal-->
-                                <div class="modal fade" id="EditModal{{$drug->DRUG_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg" role="document">
-                                                <div class="modal-content">
-                                                        <div class="modal-header shadow lg">
-                                                            <h5 style="color:#ffff">แก้ไขรายการยา&nbsp;&nbsp;</h5>
-                                                        </div>
-                                                        <div class="modal-body shadow lg">
-                                                            <form action="{{ route('setting.drug_update')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-                                                                @csrf
-                                                                <input type="hidden" value="{{$drug->DRUG_ID }}"  name ="DRUG_ID" id="DRUG_ID" class="form-control" >
-                                                                <div class="form-row">
-                                                                    <div class="col-md-6 mb-6"><br>
-                                                                        <div class="form-group">
-                                                                            <label style=" font-family: 'Kanit', sans-serif;">รูปภาพ</label>
-                                                                            <img src="data:image/png;base64,{{ chunk_split(base64_encode($drug->DRUG_IMG)) }}" id="edit_preview" alt="Image" class="img-thumbnail" style="height:270px; width:290px;">
+                                                        </tr>
+                                                            <!-- Edit/.largeModal-->
+                                                                    <div class="modal fade" id="EditModal{{$drug->DRUG_ID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog modal-lg" role="document">
+                                                                                    <div class="modal-content">
+                                                                                            <div class="modal-header shadow lg">
+                                                                                                <h5 style="color:#ffff">แก้ไขรายการยา&nbsp;&nbsp;</h5>
+                                                                                            </div>
+                                                                                            <div class="modal-body shadow lg">
+                                                                                                <form action="{{ route('setting.drug_update')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                                                                                                    @csrf
+                                                                                                    <input type="hidden" value="{{$drug->DRUG_ID }}"  name ="DRUG_ID" id="DRUG_ID" class="form-control" >
+                                                                                                    <div class="form-row">
+                                                                                                        <div class="col-md-6 mb-6"><br>
+                                                                                                            <div class="form-group">
+                                                                                                                <label style=" font-family: 'Kanit', sans-serif;">รูปภาพ</label>
+                                                                                                                <img src="data:image/png;base64,{{ chunk_split(base64_encode($drug->DRUG_IMG)) }}" id="edit_preview" alt="Image" class="img-thumbnail" style="height:270px; width:290px;">
 
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <input style="font-family: 'Kanit', sans-serif;" type="file" name="DRUG_IMG" id="DRUG_IMG" class="form-control input-sm" onchange="readURL(this)" >
-                                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                                            <div class="invalid-feedback">กรุณาเลือกภาพ</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6 mb-6">
-                                                                        <label for="DRUG_NAME">รายการยา :</label>
-                                                                        <input value="{{$drug->DRUG_NAME }}"  name ="DRUG_NAME" id="DRUG_NAME" class="form-control" > <br>
+                                                                                                            </div>
+                                                                                                            <div class="form-group">
+                                                                                                                <input style="font-family: 'Kanit', sans-serif;" type="file" name="DRUG_IMG" id="DRUG_IMG" class="form-control input-sm" onchange="readURL(this)" >
+                                                                                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                                                                <div class="invalid-feedback">กรุณาเลือกภาพ</div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-6 mb-6">
+                                                                                                            <label for="DRUG_NAME">รายการยา :</label>
+                                                                                                            <input value="{{$drug->DRUG_NAME }}"  name ="DRUG_NAME" id="DRUG_NAME" class="form-control" > <br>
 
-                                                                         <label for="DRUG_UNIT">หน่วยนับ :</label>
-                                                                        <select name ="DRUG_UNIT" id="DRUG_UNIT" class="form-control">
-                                                                            <option value="">เลือก</option>
-                                                                                @foreach ($units as $unit)
-                                                                                    @if($drug->DRUG_UNIT == $unit->UNIT_ID)
-                                                                                    <option value="{{ $unit ->UNIT_ID }}" selected>{{ $unit->UNIT_NAME}}</option>
-                                                                                    @else
-                                                                                    <option value="{{ $unit ->UNIT_ID }}">{{ $unit->UNIT_NAME}}</option>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                        </select>
-                                                                          <br>
+                                                                                                            <label for="DRUG_UNIT">หน่วยนับ :</label>
+                                                                                                            <select name ="DRUG_UNIT" id="DRUG_UNIT" class="form-control">
+                                                                                                                <option value="">เลือก</option>
+                                                                                                                    @foreach ($units as $unit)
+                                                                                                                        @if($drug->DRUG_UNIT == $unit->UNIT_ID)
+                                                                                                                        <option value="{{ $unit ->UNIT_ID }}" selected>{{ $unit->UNIT_NAME}}</option>
+                                                                                                                        @else
+                                                                                                                        <option value="{{ $unit ->UNIT_ID }}">{{ $unit->UNIT_NAME}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
+                                                                                                            </select>
+                                                                                                            <br>
 
-                                                                        <label for="DRUG_CAT">หมวดหมู่ :</label>
-                                                                        <select name ="DRUG_CAT" id="DRUG_CAT" class="form-control">
-                                                                            <option value="">เลือก</option>
-                                                                                @foreach ($cats as $cat)
-                                                                                    @if($drug->CAT_ID == $cat->CAT_ID)
-                                                                                    <option value="{{ $cat ->CAT_ID }}" selected>{{ $cat->CAT_NAME}}</option>
-                                                                                    @else
-                                                                                    <option value="{{ $cat ->CAT_ID }}">{{ $cat->CAT_NAME}}</option>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                               <br>
+                                                                                                            <label for="DRUG_CAT">หมวดหมู่ :</label>
+                                                                                                            <select name ="DRUG_CAT" id="DRUG_CAT" class="form-control">
+                                                                                                                <option value="">เลือก</option>
+                                                                                                                    @foreach ($cats as $cat)
+                                                                                                                        @if($drug->CAT_ID == $cat->CAT_ID)
+                                                                                                                        <option value="{{ $cat ->CAT_ID }}" selected>{{ $cat->CAT_NAME}}</option>
+                                                                                                                        @else
+                                                                                                                        <option value="{{ $cat ->CAT_ID }}">{{ $cat->CAT_NAME}}</option>
+                                                                                                                        @endif
+                                                                                                                    @endforeach
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                <br>
 
-                                                        <div class="modal-footer shadow lg">
-                                                        <button class="btn btn-info" type="submit" ><i class="fa fa-save fa-sm text-white-50" style="font-size:15px "></i>&nbsp;&nbsp;บันทึก </button>
-                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
+                                                                                            <div class="modal-footer shadow lg">
+                                                                                            <button class="btn btn-info" type="submit" ><i class="fa fa-save fa-sm text-white-50" style="font-size:15px "></i>&nbsp;&nbsp;บันทึก </button>
+                                                                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                    @endforeach
+                                                    
+                                                </tbody>
+                                            </table>
                                         </div>
-
-
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
-</section>
-
+</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal{{(Auth::user()->store_id)}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -244,7 +239,9 @@
     </div>
 </div>
 
-    <script>
+  
+@endsection
+<script>
         function readURL(input) {
             var fileInput = document.getElementById('DRUG_IMG');
             var url = input.value;
@@ -284,4 +281,34 @@
 });
 
 </script>
-@endsection
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#myForm').validate({
+            rules:{
+                sup_name:{
+                    required:true,
+                },
+                sup_tel:{
+                    required:true,
+                },
+                sup_address:{
+                    required:true,
+                }
+            },
+            messages:{
+
+            },
+            errorElement:'span',
+            errorPlacement:function(error,element){
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight:function(element,errorClass,validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight:function(element,errorClass,validClass){
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>

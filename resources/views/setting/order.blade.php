@@ -1,4 +1,4 @@
-@extends('layouts.adminlte_medical')
+@extends('layouts.adminhome')
 @section('content')
 <script>
     function checklogin(){
@@ -20,106 +20,118 @@
     $user_id = substr($url, $pos);
 
 ?>
-<!-- Content Header (Page header) -->
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">รายการสั่งซื้อ</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">รายการสั่งซื้อ</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+     <style>
+    .modal-header, h4, .close {
+        background-color: #5cb85c;
+        color:white !important;
+        text-align: center;
+        font-size: 30px;
+    }
+    .modal-footer {
+        background-color: #f9f9f9;
+    }
+    .container-fluid-boxs{
 
-    <style>
-        .modal-header, h4, .close {
-            background-color: #5cb85c;
-            color:white !important;
-            text-align: center;
-            font-size: 30px;
-        }
-        .modal-footer {
-            background-color: #f9f9f9;
-        }
-        .container-fluid-boxs{
-
-        }
-        .card-p{
-            margin-left: 80px;
-            margin-right: 80px;
-        }
-        .content-header{
-            margin-left: 80px;
-            margin-right: 80px;
-        }
-      </style>
-
+    }
+     </style>
 <?php
-      
+       
         date_default_timezone_set("Asia/Bangkok");
         $date = date('Y-m-d');
+        use App\Http\Controllers\ClinicsettingController;
 ?>
- <section class="col-md-12">
-    <div class="card-p shadow lg">
-        <div class="card-header shadow lg ">
-            <h6 class="float-sm-left  font-weight-bold text-primary">รายการสั่งซื้อ</h6>
-            <a href="{{url('setting/order_add/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="float-sm-right btn btn-sm btn-success shadow-lg" ><i class="fas fa-cart-plus text-white-90" style="font-size:15px "></i>&nbsp; ทำรายการสั่งซื้อ</a>
-        </div>
+<section class="col-md-12">
 
-        <div class="card-body shadow lg">
-        <table class="table table-hover" id="example1" width="100%" >
-                    <thead>
-                        <tr>
-                            <th style="text-align: center;color:#7B0099"width="3%">ลำดับ</th>
-                            <th style="text-align: center;color:#7B0099" width="10%">วันที่</th>
-                            <th style="text-align: center;color:#7B0099" width="12%">เลขที่บิล</th>
-                            <th style="text-align: center;color:#7B0099" width="12%">เลขที่ PO</th>
-                            <th style="text-align: center;color:#7B0099" >ตัวแทนจำหน่าย</th>
-                            <th style="text-align: center;color:#7B0099" width="10%">เจ้าหน้าที่</th>
-                            <th style="text-align: center;color:#7B0099" width="10%">Total</th>
-                            <th style="text-align: center;color:#7B0099"width="10%">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php $number = 0; ?>
-                        @foreach ($orders as $order)
-                            <?php $number++;  ?>
-                                <tr>
-                                    <td style="text-align: center;">{{ $number}}</td>
-                                    <td style="text-align: center;">{{DateThai($order->ORDER_DATE) }}</td>
-                                    <td style="text-align: center;">{{ $order->ORDER_BILLNO}}</td>
-                                    <td style="text-align: center;">{{ $order->ORDER_BILLPO}}</td>
-                                    <td style="text-align: center;">{{ $order->SUP_NAME}}</td>
-                                    <td style="text-align: center;">{{ $order->name}}&nbsp;&nbsp; {{ $order->lname}}</td>
-                                    <td style="text-align: center;">{{ $order->ORDER_TOTAL}}</td>
-                                    <td style="text-align: center;">
-                                        <a href="{{ url('setting/order_print/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-print" style='font-size:15px;color:rgb(247, 0, 255)'></i> </a>
-                                        &nbsp;&nbsp;
-                                        @if((Auth::user()->user_edit) == 'on' )
-                                        <a href="{{ url('setting/order_edit/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-fw fa-edit" style='font-size:15px;color:orange'></i> </a>
-                                        @endif
-                                        @if((Auth::user()->user_delete) == 'on' ) 
-                                        &nbsp;&nbsp; <a href="{{ url('setting/order_destroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID)}}" onclick="return confirm('ต้องการที่จะลบข้อมูล ?')" ><i class="fas fa-fw fa-trash" style='font-size:15px;color:red'></i></a>
-                                        {{-- <a title="Delete" id="drugrecdelete" class="btn btn-sm btn-danger" href="{{ route('setting.recieve_drug_destroy',$rec->ORDER_ID)}}" data-token="{{csrf_token()}}" data-id="{{$rec->REC_ID}}"><i class="fas fa-fw fa-trash"></i></a> --}}
-                                        @endif
-                                    </td>
-                                </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+<div class="app-content content">
+    <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                    <h3 class="content-header-title mb-0 d-inline-block">รายการสั่งซื้อ</h3>
+                    <div class="row breadcrumbs-top d-inline-block">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                                <!-- <li class="breadcrumb-item"><a href="#">สถานพยาบาล</a> -->
+                                </li>
+                                <li class="breadcrumb-item active">รายการสั่งซื้อ
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right col-md-6 col-12">
+                    <div class="btn-group float-md-right"> 
+                        <a href="{{url('setting/order_add/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}" class="float-sm-right btn btn-success btn-glow round px-2"><i class="fas fa-cart-plus text-white-90 mr-1" style="font-size:15px "></i>ทำรายการสั่งซื้อ&nbsp; </a>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <section id="floating-point">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="card">   
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap shadow-lg">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-striped table-bordered sourced-data" >                                   
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center;color:#7B0099" width="5%">ลำดับ</th>
+                                                        <th style="text-align: center;color:#7B0099" width="10%">วันที่</th>
+                                                        <th style="text-align: center;color:#7B0099" width="12%">เลขที่บิล</th>
+                                                        <th style="text-align: center;color:#7B0099" width="12%">เลขที่ PO</th>
+                                                        <th style="text-align: center;color:#7B0099" >ตัวแทนจำหน่าย</th>
+                                                        <th style="text-align: center;color:#7B0099" width="12%">เจ้าหน้าที่</th>
+                                                        <th style="text-align: center;color:#7B0099" width="10%">Total</th>
+                                                        <th style="text-align: center;color:#7B0099" width="12%">จัดการ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                    @foreach ($orders as $key => $order)
+                                                        <tr class="pull-up">   
+                                                            <td style="text-align: center;" width="5%">{{$key+1}}</td>
+                                                            <td style="text-align: center;">{{DateThai($order->ORDER_DATE) }}</td>
+                                                            <td style="text-align: center;">{{ $order->ORDER_BILLNO}}</td>
+                                                            <td style="text-align: center;">{{ $order->ORDER_BILLPO}}</td>
+                                                            <td style="text-align: center;">{{ $order->SUP_NAME}}</td>
+                                                            <td style="text-align: center;" width="12%">{{ $order->name}}&nbsp;&nbsp; {{ $order->lname}}</td>
+                                                            <td style="text-align: center;">{{ $order->ORDER_TOTAL}}</td>
+                                                            <td style="text-align: center;" width="12%">
+                                                                <a href="{{ url('setting/order_print/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-print" style='font-size:15px;color:rgb(247, 0, 255)'></i> </a>
+                                                                &nbsp;&nbsp;
+                                                                @if((Auth::user()->user_edit) == 'on' )
+                                                                <a href="{{ url('setting/order_edit/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-fw fa-edit" style='font-size:15px;color:orange'></i> </a>
+                                                                @endif
+                                                                @if((Auth::user()->user_delete) == 'on' ) 
+                                                                &nbsp;&nbsp; <a href="{{ url('setting/order_destroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID)}}" onclick="return confirm('ต้องการที่จะลบข้อมูล ?')" ><i class="fas fa-fw fa-trash" style='font-size:15px;color:red'></i></a>
+                                                                {{-- <a title="Delete" id="drugrecdelete" class="btn btn-sm btn-danger" href="{{ route('setting.recieve_drug_destroy',$rec->ORDER_ID)}}" data-token="{{csrf_token()}}" data-id="{{$rec->REC_ID}}"><i class="fas fa-fw fa-trash"></i></a> --}}
+                                                                @endif
+                                                            </td>                                               
 
-
+                                                        </tr>
+                                                          
+                                                    @endforeach
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 </div>
-</section>
+
+  
+@endsection
 
 <script>
     $('body').on('keydown', 'input, select, textarea', function(e) {
@@ -140,6 +152,35 @@
     }
 });
 
-
 </script>
-@endsection
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#myForm').validate({
+            rules:{
+                sup_name:{
+                    required:true,
+                },
+                sup_tel:{
+                    required:true,
+                },
+                sup_address:{
+                    required:true,
+                }
+            },
+            messages:{
+
+            },
+            errorElement:'span',
+            errorPlacement:function(error,element){
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight:function(element,errorClass,validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight:function(element,errorClass,validClass){
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>

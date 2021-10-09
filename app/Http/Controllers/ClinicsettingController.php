@@ -282,7 +282,8 @@ class ClinicsettingController extends Controller
         $add->LOCATE_CODE = $request->LOCATE_CODE;
         $add->LOCATE_NAME = $request->LOCATE_NAME;
         $add->save();
-        return redirect()->route('setting.locate',['idstore'=>$idstore,'iduser'=>$iduser])->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+        // return redirect()->route('setting.locate',['idstore'=>$idstore,'iduser'=>$iduser])->with('success','บันทึกข้อมูลเรียบร้อยแล้ว');
+        return redirect()->route('setting.locate',['idstore'=>$idstore,'iduser'=>$iduser]);
     }
     public function locate_update(Request $request)
     {

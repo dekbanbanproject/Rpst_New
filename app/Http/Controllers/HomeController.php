@@ -255,7 +255,7 @@ class HomeController extends Controller
         $permiss =  DB::table('permiss_list')->leftjoin('users','permiss_list.PERMISS_LIST_USER','=','users.id')->where('permiss_list.PERMISS_LIST_USER','=',$iduser)->get();
         $permiss_u =  DB::table('users')->where('id','=',$iduser)->get();
 
-        return view('settingdashboard',[
+        return view('dashboard_home',[
             'data_hos'=>$data_hos,
            'permiss'=>$permiss,'permiss_u'=>$permiss_u,
             'p_c1' => $p_c1,'p_c2' => $p_c2,'p_c3' => $p_c3,'p_c4' => $p_c4,'p_c5' => $p_c5,'p_c6' => $p_c6,'p_c7' => $p_c7,'p_c8' => $p_c8,'p_c9' => $p_c9,'p_c10' => $p_c10, 'p_c11' => $p_c11, 'p_c12' => $p_c12,

@@ -10,9 +10,9 @@
     <meta name="description" content="Modern admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities with bitcoin dashboard.">
     <meta name="keywords" content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
     <meta name="author" content="PIXINVENT">
-    <title>Crypto Dashboard - Modern Admin - Clean Bootstrap 4 Dashboard HTML Template + Bitcoin Dashboard</title>
-    <link rel="apple-touch-icon" href="{{asset('app-assets/images/ico/apple-icon-120.png')}}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('app-assets/images/ico/favicon.ico')}}">
+    <title>Zooshi-Center</title>
+    <link rel="apple-touch-icon" href="{{ asset('/img/logo/Zooshi.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/img/logo/Zooshi.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
@@ -66,16 +66,14 @@
             <div class="main-menu-content">
                 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                   
-                    </li>
-                
+                    </li>               
                 
                             
                 </ul>
             </div>
         </div>
     
-        <div class="container-fuid">
-        
+        <div class="container-fuid">        
                    
             @yield('content')
 
@@ -282,32 +280,92 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">     
                 <li class="active"><a href=""><span class="menu-title" data-i18n="Crypto Dashboard"></span></a>
                 </li>
-                <li class=" nav-item"><a href="#"><i class="la la-server"></i><span class="menu-title" data-i18n="Components">งานเอกสาร</span></a>
+                <li class=" nav-item"><a href="#"><i class="fas fa-swatchbook"></i><span class="menu-title" data-i18n="Components">งานเอกสาร</span></a>
                     <ul class="menu-content">                      
                         </li>
                         <li><a class="menu-item" href="{{url('document/index_recieve')}}">
-                            <i class="fas fa-id-badge nav-icon mr-1"></i>
+                            <i class="fas fa-swatchbook nav-icon mr-1"></i>
                             หนังสือเข้า
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="badge badge-info right">&nbsp;{{ $user_a }}&nbsp;</span>
                          </a>
                         </li>
                         <li><a class="menu-item" href="{{url('document/index_send')}}">
-                            <i class="fas fa-id-badge nav-icon mr-1"></i>
+                            <i class="fas fa-paper-plane nav-icon mr-1"></i>
                             หนังสือส่ง
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="badge badge-info right">&nbsp;{{ $user_a }}&nbsp;</span>
                          </a>
-                        </li>
+                        </li>                    
                        
-                        <!-- <li><a class="menu-item" href="#"><i></i><span data-i18n="Buttons">Buttons</span></a>
-                            <ul class="menu-content">
-                                <li><a class="menu-item" href="component-buttons-basic.html"><i></i><span data-i18n="Basic Buttons">Basic Buttons</span></a>
-                                </li>
-                                <li><a class="menu-item" href="component-buttons-extended.html"><i></i><span data-i18n="Extended Buttons">Extended Buttons</span></a>
-                                </li>
-                            </ul>
-                        </li> -->
+                    </ul>
+                </li>
+                <li class=" nav-item"><a href="#"><i class="fas fa-swatchbook"></i><span class="menu-title" data-i18n="Components">คลังยา</span></a>
+                    <ul class="menu-content">                      
+                        </li>
+                        <li><a class="menu-item" href="{{ url('supplier/supindex/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}">
+                            <i class="fas fa-swatchbook nav-icon mr-1"></i>
+                            supplier
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $supplier_a }}&nbsp;</span>
+                         </a>
+                        </li>
+                        <li><a class="menu-item" href="{{ url('setting/locate/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}">
+                            <i class="fas fa-hospital-alt nav-icon mr-1"></i>
+                            สถานพยาบาล
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $locate_a }}&nbsp;</span>
+                         </a>
+                        </li>   
+                        <li><a class="menu-item" href="{{ url('setting/unit/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}">
+                            <i class="fas fa-tablets nav-icon mr-1"></i>
+                            หน่วยนับ
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $unit_a }}&nbsp;</span>
+                         </a>
+                        </li>    
+                        <li><a class="menu-item" href="{{ url('setting/category/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}">
+                            <i class="fas fa-vials nav-icon mr-1"></i>
+                            หมวดหมู่
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $category_a }}&nbsp;</span>
+                         </a>
+                        </li>    
+                        <li><a class="menu-item" href="{{ url('setting/drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}">
+                            <i class="fas fa-pills nav-icon mr-1"></i>
+                            รายการยา
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $product_a }}&nbsp;</span>
+                         </a>
+                        </li>   
+                        <li><a class="menu-item" href="{{ url('setting/order/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}">
+                            <i class="fas fa-envelope-open-text nav-icon mr-1"></i>
+                            สั่งซื้อ
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $order_a }}&nbsp;</span>
+                         </a>
+                        </li>   
+                        <li><a class="menu-item" href="{{ url('setting/recieve_drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}">
+                            <i class="fas fa-file-prescription nav-icon mr-1"></i>
+                            รับยาเข้าระบบ
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $recieve_a }}&nbsp;</span>
+                         </a>
+                        </li>   
+                        <li><a class="menu-item" href="{{ url('setting/pay_drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}">
+                            <i class="fas fa-hand-holding-medical nav-icon mr-1"></i>
+                            เบิก-จ่ายยา
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;{{ $pay_a }}&nbsp;</span>
+                         </a>
+                        </li>   
+                        <li><a class="menu-item" href="{{ url('setting/sticker/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}">
+                            <i class="fas fa-print nav-icon mr-1"></i>
+                            Print Sticker
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="badge badge-info right">&nbsp;&nbsp;</span>
+                         </a>
+                        </li>                     
                        
                     </ul>
                 </li>
