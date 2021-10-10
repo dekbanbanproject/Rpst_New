@@ -23,6 +23,7 @@ class CreateDocument extends Migration
             $table->string('DOC_FILE_NAME')->nullable();
             $table->date('DOC_DATE'); 
             $table->string('DOC_USER_CERIEVE')->nullable(); 
+            $table->string('DOC_STORE_ID'); 
             $table->dateTime('created_at', 0);
             $table->dateTime('updated_at', 0);
         });

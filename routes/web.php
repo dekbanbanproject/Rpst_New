@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\FontendController;
 
 Route::resource('first', 'FirstController');
 
@@ -315,5 +315,9 @@ Route::get('products/pdf/oderspdf', 'PdfController@oderspdf')->name('P.oderspdf'
 
 ////// ================  สสอ =========================///////
 
-Route::match(['get','post'],'document/index_recieve','DocumentController@index_recieve')->name('doc.index_recieve');
+Route::match(['get','post'],'document/index_recieve/{idstore}/{iduser}','DocumentController@index_recieve')->name('doc.index_recieve');
+Route::match(['get','post'],'document/index_recieve_add/{idstore}/{iduser}','DocumentController@index_recieve_add')->name('doc.index_recieve_add');
 Route::match(['get','post'],'document/index_send','DocumentController@index_send')->name('doc.index_send');
+
+
+Route::post('subscribe_indexsave',[FontendController::class,'subscribe_indexsave'])->name('subscribe_indexsave');

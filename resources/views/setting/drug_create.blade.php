@@ -126,17 +126,19 @@
 
                             <div class="card-footer shadow lg">
                                 <div class="form-row">
-                                    <div class="col-md-10 mb-10 text-right">
+                                    <div class="col-md-10  text-right">
                                         <!-- <h5>ค้นหารายชื่อผู้ป่วย</h5> -->
                                     </div>
 
-                                    <div class="col-md-2 mb-2">
+                                    <div class="col-md-2 ">
                                     <button class="float-sm-right btn btn-info" type="submit" ><i class="fa fa-save fa-sm text-white-50" style="font-size:15px "></i>&nbsp;&nbsp;บันทึก </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+
+                    
                     </div>
                         </div>
                     </div>               

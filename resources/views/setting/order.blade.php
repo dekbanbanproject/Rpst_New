@@ -101,14 +101,14 @@
                                                             <td style="text-align: center;" width="12%">{{ $order->name}}&nbsp;&nbsp; {{ $order->lname}}</td>
                                                             <td style="text-align: center;">{{ $order->ORDER_TOTAL}}</td>
                                                             <td style="text-align: center;" width="12%">
-                                                                <a href="{{ url('setting/order_print/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-print" style='font-size:15px;color:rgb(247, 0, 255)'></i> </a>
+                                                                <a class="btn btn-info btn-glow round px-2" href="{{ url('setting/order_print/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-print" style='font-size:15px;color:white'></i> </a>
                                                                 &nbsp;&nbsp;
                                                                 @if((Auth::user()->user_edit) == 'on' )
-                                                                <a href="{{ url('setting/order_edit/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-fw fa-edit" style='font-size:15px;color:orange'></i> </a>
+                                                                <a class="btn btn-warning btn-glow round px-2" href="{{ url('setting/order_edit/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID )  }}" ><i class="fas fa-fw fa-edit" style='font-size:15px;color:white'></i> </a>
                                                                 @endif
                                                                 @if((Auth::user()->user_delete) == 'on' ) 
-                                                                &nbsp;&nbsp; <a href="{{ url('setting/order_destroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID)}}" onclick="return confirm('ต้องการที่จะลบข้อมูล ?')" ><i class="fas fa-fw fa-trash" style='font-size:15px;color:red'></i></a>
-                                                                {{-- <a title="Delete" id="drugrecdelete" class="btn btn-sm btn-danger" href="{{ route('setting.recieve_drug_destroy',$rec->ORDER_ID)}}" data-token="{{csrf_token()}}" data-id="{{$rec->REC_ID}}"><i class="fas fa-fw fa-trash"></i></a> --}}
+                                                                &nbsp;&nbsp; <a class="btn btn-danger btn-glow round px-2" href="{{ url('setting/order_destroy/'.(Auth::user()->store_id).'/'.(Auth::user()->id).'/'.$order->ORDER_ID)}}" onclick="return confirm('ต้องการที่จะลบข้อมูล ?')" ><i class="fas fa-fw fa-trash font-small-5" style='font-size:15px;color:white'></i></a>
+                                                                <!-- <a title="Delete" id="drugrecdelete" class="btn btn-sm btn-danger" href="{{ route('setting.recieve_drug_destroy',$rec->ORDER_ID)}}" data-token="{{csrf_token()}}" data-id="{{$rec->REC_ID}}"><i class="fas fa-fw fa-trash"></i></a>  -->
                                                                 @endif
                                                             </td>                                               
 

@@ -1,4 +1,5 @@
-@extends('layouts.adminlte_medical')
+@extends('layouts.adminhome')
+
 @section('content')
 <script>
     function checklogin(){
@@ -20,203 +21,176 @@
     $user_id = substr($url, $pos);
 
 ?>
-<?php
-function DateThai($strDate)
-{
-$strYear = date("Y",strtotime($strDate))+543;
-$strMonth= date("n",strtotime($strDate));
-$strDay= date("j",strtotime($strDate));
-$strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
-$strMonthThai=$strMonthCut[$strMonth];
-return "$strDay $strMonthThai $strYear";
-}
-function formate($strDate)
-{
-$strYear = date("Y",strtotime($strDate));
-$strMonth= date("m",strtotime($strDate));
-$strDay= date("d",strtotime($strDate));
+ <style>
+    .modal-header, h4, .close {
+        background-color: #5cb85c;
+        color:white !important;
+        text-align: center;
+        font-size: 30px;
+    }
+    .modal-footer {
+        background-color: #f9f9f9;
+    }
+    .container-fluid-boxs{
 
-return $strDay."/".$strMonth."/".$strYear;
-}
-function formatetime($strtime)
-{
-$H = substr($strtime,0,5);
-return $H;
-}
-date_default_timezone_set("Asia/Bangkok");
-$date = date('Y-m-d');
-?>
-    <style>
-        .modal-header, h4, .close {
-            background-color: #5cb85c;
-            color:white !important;
-            text-align: center;
-            font-size: 30px;
-        }
-        .modal-footer {
-            background-color: #f9f9f9;
-        }
-        .container-fluid-boxs{
+    }
+   
+  </style>
 
-        }
-        .card-p{
-            margin-left: 80px;
-            margin-right: 80px;
-        }
-        .content-header{
-            margin-left: 80px;
-            margin-right: 80px;
-        }
-      </style>
-
-<!-- Content Header (Page header) -->
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">รับยาเข้าระบบ</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">รับยาเข้าระบบ</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-
-
-<section class="col-md-12">
-    <div class="card-p shadow mb-4 ">
-        <div class="card-header shadow lg">
-            <h6 class="float-sm-left  font-weight-bold text-primary">รับยาเข้าระบบ</h6>
-            <a href="{{ url('setting/recieve_drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}" class="float-sm-right btn btn-sm btn-warning shadow-lg"><i class="fas fa-chevron-circle-left text-white-50" style="font-size:18px "></i>&nbsp; ย้อนกลับ</a>
-        </div>
-
-        <div class="card-body shadow lg">
-            <form action="{{ route('setting.recieve_drug_save')}}" method="POST" enctype="multipart/form-data" >
-                    @csrf
-                    <input type="hidden" name ="idstore" id="idstore" value="{{ (Auth::user()->store_id)}}" class="form-control" >
-                    <input type="hidden" name ="iduser" id="iduser" value="{{ (Auth::user()->id)}}" class="form-control" >
-
-                    <div class="form-row">
-                        <div class="col-md-3 mb-2 text-left">
-                            <label for="REC_DATE">วันที่รับเข้า :</label>
-                            <input type="date" name ="REC_DATE" id="REC_DATE" class="form-control datepicker" data-date-format="dd/mm/yyyy " required>
+<div class="app-content content">
+    <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                    <h3 class="content-header-title mb-0 d-inline-block">เพิ่มรายการรับยาเข้าระบบ</h3>
+                    <div class="row breadcrumbs-top d-inline-block">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                             
+                                <li class="breadcrumb-item active">เพิ่มรายการรับยาเข้าระบบ
+                                </li>
+                            </ol>
                         </div>
-
-                        <div class="col-md-3 mb-2 text-left">
-                            <label for="REC_BILLNO">เลขที่บิล :</label>
-                            <input value="{{ $refnumbers }}" name ="REC_BILLNO" id="REC_BILLNO" class="form-control"  required>
-                        </div>
-                        <div class="col-md-2 mb-2 text-left">
-                            <label for="REC_YEAR">ปีงบประมาณ :</label>
-                            <select name="REC_YEAR" id="REC_YEAR" class="form-control input-sm" style=" font-family: 'Kanit', sans-serif;" required >
-                                        <option value="">--เลือก--</option>
-                                        @foreach ($years as $year)
-                                            <option value="{{ $year ->YEAR_ID }}" >{{ $year-> YEAR_NAME}}</option>
-                                        @endforeach
-                                    </select>
-                        </div>
-                        <div class="col-md-3 mb-3 text-left">
-                            <label for="REC_BILLPO">เลขที่ PO :</label>
-                            <input value="{{ $billPOs }}" name ="REC_BILLPO" id="REC_BILLPO" class="form-control"  required>
-                        </div>
-                        <div class="col-md-1 mb-1 text-left">
-                            <label for="REC_SUP_D">ดู เลขที่ PO </label>&nbsp;&nbsp;
-                           <a href="" class="btn btn-info" data-toggle="modal" data-target=".addlevel">&nbsp;&nbsp;&nbsp;เลือก&nbsp;&nbsp;&nbsp;</a>
-                        </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-4 mb-3 text-left">
-                                <label for="REC_SUP">supplies :</label>
-                                    <select name="REC_SUP" id="REC_SUP" class="form-control input-sm" style=" font-family: 'Kanit', sans-serif;" required>
-                                        <option value="">--เลือก--</option>
-                                        @foreach ($sups as $sup)
-                                            <option value="{{ $sup ->SUP_ID }}" >{{ $sup-> SUP_NAME}}</option>
-                                        @endforeach
-                                    </select>
-                            </div>
-                            <div class="col-md-4 mb-2 text-left">
-                                <label for="REC_STAFF">ผู้รับ :</label>
-                                <input type="hidden" value="{{Auth::user()->id}}"  name ="REC_STAFF" id="REC_STAFF" class="form-control" required >
-                                <input value="{{$id_user}}&nbsp;&nbsp;{{Auth::user()->lname}} "  name ="REC_STAFFH" id="REC_STAFFH" class="form-control"  readonly>
-                            </div>
-                            <div class="col-md-4 text-left">
-                                <label for="Total">.</label>
-                               <input value=" {{'Total    :    '    }} " name ="Totals" id="Totals" class="form-control" style="color:#fefaff;background-color: #fc570a;font-size:20px;">
-                            </div>
-                        </div>
-                        <div class="block-content tab-content">
-                            <div class="tab-pane active" id="object1" role="tabpanel">
-                                <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
-
-                                    <thead>
-                                        <tr>
-                                            <td style="text-align: center;color:#7B0099" width="2%">ลำดับ</td>
-                                            <td style="text-align: center;color:#7B0099" >รายการ</td>
-                                            <td style="text-align: center;color:#7B0099" width="10%">หน่วยนับ</td>
-                                            <td style="text-align: center;color:#7B0099" width="10%">จำนวน</td>
-                                            <td style="text-align: center;color:#7B0099" width="8%">ราคา</td>
-                                            <td style="text-align: center;color:#7B0099" width="10%">ล็อตการผลิต</td>
-                                            <td style="text-align: center;color:#7B0099" width="10%">วันผลิต</td>
-                                            <td style="text-align: center;color:#7B0099" width="10%">วันหมดอายุ</td>
-                                            <td style="text-align: center;color:#7B0099" width="5%">
-                                                <a class="btn btn-sm btn-success addRow" style="color:#FFFFFF;"><i class="fas fa-plus" ></i></a>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="tbody1">
-                                        <tr>
-                                            <td style="text-align: center;"> 1 </td>
-                                            <td>
-                                                <input list="store_recieve" name="STORE_RECIEVE_DRUG_ID[]" id="STORE_RECIEVE_DRUG_ID[]" class="form-control" >
-                                                <datalist id="store_recieve">
-                                                    <option value="">--เลือก--</option>
-                                                        @foreach ($drugs as $drug)
-                                                            <option value="{{ $drug ->DRUG_ID }} => {{ $drug-> DRUG_CODE}} => {{ $drug-> DRUG_NAME}}">{{ $drug-> DRUG_CODE}}&nbsp;&nbsp;&nbsp;{{ $drug-> DRUG_NAME}}&nbsp;&nbsp;&nbsp;{{ $drug-> UNIT_NAME}}&nbsp;&nbsp;&nbsp;{{ $drug-> DRUG_UNIT_PRICE}}</option>
-                                                        @endforeach
-                                                </datalist>
-                                            </td>
-                                            <td>
-                                                <input list="store_recieve_unit" name="STORE_RECIEVE_DRUG_UNIT[]" id="STORE_RECIEVE_DRUG_UNIT[]" class="form-control" >
-                                                    <datalist id="store_recieve_unit">
-                                                    <option value="">--เลือก--</option>
-                                                        @foreach ($units as $unit)
-                                                            <option value="{{ $unit ->UNIT_ID }} => {{ $unit-> UNIT_NAME}}">{{ $unit-> UNIT_NAME}}</option>
-                                                        @endforeach
-                                                </select>
-                                            </td>
-                                            <td><input name="STORE_RECIEVE_DRUG_QTY[]" id="STORE_RECIEVE_DRUG_QTY[]" class="form-control"></td>
-                                            <td> <input name="STORE_RECIEVE_DRUG_PRICE[]" id="STORE_RECIEVE_DRUG_PRICE[]" class="form-control"></td>
-                                            <td> <input name="STORE_RECIEVE_DRUG_LOT[]" id="STORE_RECIEVE_DRUG_LOT[]" class="form-control"></td>
-                                            <td> <input name="STORE_RECIEVE_DRUG_DATE_BEGIN[]" id="STORE_RECIEVE_DRUG_DATE_BEGIN[]" type="date" class="form-control datepicker"></td>
-                                            <td> <input name="STORE_RECIEVE_DRUG_DATE_EXP[]" id="STORE_RECIEVE_DRUG_DATE_EXP[]" type="date" class="form-control datepicker"></td>
-                                            <td style="text-align: center;"><a class="btn btn-sm btn-danger fa fa-trash-alt remove" style="color:#FFFFFF;"></a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer shadow lg">
-                            <button class="btn btn-info" type="submit" ><i class="fa fa-save fa-sm text-white-50" style="font-size:15px "></i>&nbsp;&nbsp;บันทึก </button>
-
-                            <a href="{{ url('setting/recieve_drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}" class="btn btn-danger" data-dismiss="modal"><i class='fas fa-door-closed' style='font-size:15px;color:white'></i>&nbsp;&nbsp;Close</a>
                     </div>
                 </div>
-            </form>
+                <div class="content-header-right col-md-6 col-12">
+                    <div class="btn-group float-md-right">                   
+                        <a href="{{ url('setting/recieve_drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}" class="float-sm-right btn btn-info btn-glow round px-2"><i class="fas fa-hand-point-left text-white-90 mr-1" style="font-size:15px "></i>ย้อนกลับ</a>                                                                 
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <section id="floating-point">
+                    <div class="row">
+                        <div class="col-md-12"> 
+                            <div class="card">   
+                                <div class="card-body shadow lg ">  
 
+                                    <form action="{{ route('setting.recieve_drug_save')}}" method="POST" enctype="multipart/form-data" >
+                                            @csrf
+                                            <input type="hidden" name ="idstore" id="idstore" value="{{ (Auth::user()->store_id)}}" class="form-control" >
+                                            <input type="hidden" name ="iduser" id="iduser" value="{{ (Auth::user()->id)}}" class="form-control" >
+
+                                            <div class="form-row">
+                                                <div class="col-md-3 mb-2 text-left">
+                                                    <label for="REC_DATE">วันที่รับเข้า :</label>
+                                                    <input type="date" name ="REC_DATE" id="REC_DATE" class="form-control datepicker" data-date-format="dd/mm/yyyy " required>
+                                                </div>
+
+                                                <div class="col-md-3 mb-2 text-left">
+                                                    <label for="REC_BILLNO">เลขที่บิล :</label>
+                                                    <input value="{{ $refnumbers }}" name ="REC_BILLNO" id="REC_BILLNO" class="form-control"  required>
+                                                </div>
+                                                <div class="col-md-2 mb-2 text-left">
+                                                    <label for="REC_YEAR">ปีงบประมาณ :</label>
+                                                    <select name="REC_YEAR" id="REC_YEAR" class="form-control" style=" font-family: 'Kanit', sans-serif;" required >
+                                                                <option value="">--เลือก--</option>
+                                                                @foreach ($years as $year)
+                                                                    <option value="{{ $year ->YEAR_ID }}" >{{ $year-> YEAR_NAME}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                </div>
+                                                <div class="col-md-3 mb-3 text-left">
+                                                    <label for="REC_BILLPO">เลขที่ PO :</label>
+                                                    <input value="{{ $billPOs }}" name ="REC_BILLPO" id="REC_BILLPO" class="form-control"  required>
+                                                </div>
+                                                <div class="col-md-1 mb-1 text-left">
+                                                    <label for="REC_SUP_D">ดู เลขที่ PO </label>&nbsp;&nbsp;
+                                                <a href="" class="btn btn-info" data-toggle="modal" data-target=".addlevel">&nbsp;&nbsp;&nbsp;เลือก&nbsp;&nbsp;&nbsp;</a>
+                                                </div>
+
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-md-4 mb-3 text-left">
+                                                        <label for="REC_SUP">supplies :</label>
+                                                            <select name="REC_SUP" id="REC_SUP" class="form-control" style=" font-family: 'Kanit', sans-serif;" required>
+                                                                <option value="">--เลือก--</option>
+                                                                @foreach ($sups as $sup)
+                                                                    <option value="{{ $sup ->SUP_ID }}" >{{ $sup-> SUP_NAME}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                    </div>
+                                                    <div class="col-md-4 mb-2 text-left">
+                                                        <label for="REC_STAFF">ผู้รับ :</label>
+                                                        <input type="hidden" value="{{Auth::user()->id}}"  name ="REC_STAFF" id="REC_STAFF" class="form-control" required >
+                                                        <input value="{{$id_user}}&nbsp;&nbsp;{{Auth::user()->lname}} "  name ="REC_STAFFH" id="REC_STAFFH" class="form-control"  readonly>
+                                                    </div>
+                                                    <div class="col-md-4 text-left">
+                                                        <label for="Total">.</label>
+                                                    <input value=" {{'Total    :    '    }} " name ="Totals" id="Totals" class="form-control" style="color:#fefaff;background-color: #fc570a;font-size:20px;">
+                                                    </div>
+                                                </div>
+                                                <div class="block-content tab-content">
+                                                    <div class="tab-pane active" id="object1" role="tabpanel">
+                                                        <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
+
+                                                            <thead>
+                                                                <tr>
+                                                                    <td style="text-align: center;color:#7B0099" width="2%">ลำดับ</td>
+                                                                    <td style="text-align: center;color:#7B0099" >รายการ</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="10%">หน่วยนับ</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="10%">จำนวน</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="8%">ราคา</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="10%">ล็อตการผลิต</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="10%">วันผลิต</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="10%">วันหมดอายุ</td>
+                                                                    <td style="text-align: center;color:#7B0099" width="5%">
+                                                                        <a class="btn btn-sm btn-success addRow" style="color:#FFFFFF;"><i class="fas fa-plus" ></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="tbody1">
+                                                                <tr>
+                                                                    <td style="text-align: center;"> 1 </td>
+                                                                    <td>
+                                                                        <input list="store_recieve" name="STORE_RECIEVE_DRUG_ID[]" id="STORE_RECIEVE_DRUG_ID[]" class="form-control" >
+                                                                        <datalist id="store_recieve">
+                                                                            <option value="">--เลือก--</option>
+                                                                                @foreach ($drugs as $drug)
+                                                                                    <option value="{{ $drug ->DRUG_ID }} => {{ $drug-> DRUG_CODE}} => {{ $drug-> DRUG_NAME}}">{{ $drug-> DRUG_CODE}}&nbsp;&nbsp;&nbsp;{{ $drug-> DRUG_NAME}}&nbsp;&nbsp;&nbsp;{{ $drug-> UNIT_NAME}}&nbsp;&nbsp;&nbsp;{{ $drug-> DRUG_UNIT_PRICE}}</option>
+                                                                                @endforeach
+                                                                        </datalist>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input list="store_recieve_unit" name="STORE_RECIEVE_DRUG_UNIT[]" id="STORE_RECIEVE_DRUG_UNIT[]" class="form-control" >
+                                                                            <datalist id="store_recieve_unit">
+                                                                            <option value="">--เลือก--</option>
+                                                                                @foreach ($units as $unit)
+                                                                                    <option value="{{ $unit ->UNIT_ID }} => {{ $unit-> UNIT_NAME}}">{{ $unit-> UNIT_NAME}}</option>
+                                                                                @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input name="STORE_RECIEVE_DRUG_QTY[]" id="STORE_RECIEVE_DRUG_QTY[]" class="form-control"></td>
+                                                                    <td> <input name="STORE_RECIEVE_DRUG_PRICE[]" id="STORE_RECIEVE_DRUG_PRICE[]" class="form-control"></td>
+                                                                    <td> <input name="STORE_RECIEVE_DRUG_LOT[]" id="STORE_RECIEVE_DRUG_LOT[]" class="form-control"></td>
+                                                                    <td> <input name="STORE_RECIEVE_DRUG_DATE_BEGIN[]" id="STORE_RECIEVE_DRUG_DATE_BEGIN[]" type="date" class="form-control datepicker"></td>
+                                                                    <td> <input name="STORE_RECIEVE_DRUG_DATE_EXP[]" id="STORE_RECIEVE_DRUG_DATE_EXP[]" type="date" class="form-control datepicker"></td>
+                                                                    <td style="text-align: center;"><a class="btn btn-sm btn-danger fa fa-trash-alt remove" style="color:#FFFFFF;"></a></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer shadow lg">
+                                                    <button class="btn btn-info" type="submit" ><i class="fa fa-save fa-sm text-white-50" style="font-size:15px "></i>&nbsp;&nbsp;บันทึก </button>
+
+                                                    <a href="{{ url('setting/recieve_drug/'.(Auth::user()->store_id).'/'.(Auth::user()->id) )}}" class="btn btn-danger" data-dismiss="modal"><i class='fas fa-door-closed' style='font-size:15px;color:white'></i>&nbsp;&nbsp;Close</a>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                        </div>
+                    </div>               
+                </section>
+            </div>
         </div>
     </div>
 </div>
-</section>
-
 <div class="modal fade addlevel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modallevel">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -320,7 +294,7 @@ $('.addRow').on('click',function(){
 
      });
 </script>
-
+@endsection
 <script>
     $('body').on('keydown', 'input, select, textarea', function(e) {
     var self = $(this)
@@ -347,4 +321,4 @@ function chkNumber(ele){
     }
 
 </script>
-@endsection
+

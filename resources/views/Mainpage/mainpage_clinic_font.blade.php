@@ -8,25 +8,7 @@
 
 <?php
     date_default_timezone_set("Asia/Bangkok");
-    function DateThai($strDate)
-    {
-    $strYear = date("Y",strtotime($strDate))+543;
-    $strMonth= date("n",strtotime($strDate));
-    $strDay= date("j",strtotime($strDate));
-
-    $strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิถุนายน","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
-    $strMonthThai=$strMonthCut[$strMonth];
-    return "$strDay $strMonthThai $strYear";
-    }
-
-    function formate($strDate)
-    {
-    $strYear = date("Y",strtotime($strDate));
-    $strMonth= date("m",strtotime($strDate));
-    $strDay= date("d",strtotime($strDate));
-
-    return $strDay."/".$strMonth."/".$strYear;
-    }
+   
     $datenow = date('Y-m-d');
 
     function get_client_ip_env() {
@@ -203,10 +185,10 @@ function check(){
 
 
     function chkmunny(ele){
-var vchar = String.fromCharCode(event.keyCode);
-if ((vchar<'0' || vchar>'9' )&& (vchar != '.')) return false;
-ele.onKeyPress=vchar;
-}
+        var vchar = String.fromCharCode(event.keyCode);
+        if ((vchar<'0' || vchar>'9' )&& (vchar != '.')) return false;
+        ele.onKeyPress=vchar;
+        }
 
 function startTime(){
   var today = new Date();

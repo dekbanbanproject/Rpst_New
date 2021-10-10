@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,18 +13,15 @@
     <link rel="apple-touch-icon" href="{{ asset('/img/logo/Zooshi.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/img/logo/Zooshi.png') }}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700" rel="stylesheet">
-
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/vendors.min.css')}}">
     <!-- END: Vendor CSS-->
-
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/bootstrap-extended.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/colors.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/components.css')}}">
     <!-- END: Theme CSS-->
-
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/core/menu/menu-types/vertical-menu-modern.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/core/colors/palette-gradient.css')}}">
@@ -35,9 +31,6 @@
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-
-
-
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
       rel="stylesheet"
@@ -54,31 +47,56 @@
     />
 
 </head>
+<style>
+        .center {
+                margin: auto;
+                width: 100%;
+                padding: 10px;
+                }
+            body {
+                font-family: 'Kanit', sans-serif;
+                font-size: 17px;
+                
+                }
+            .text-pedding{
+                padding-left:10px;
+                }
+                .text-font {
+                 font-size: 17px;
+                        }   
+                .dataTables_wrapper   .dataTables_filter{
+                        float: right ;
+                        font-size: 17px;
+                        }
 
+                .dataTables_wrapper  .dataTables_length{
+                         float: left ;
+                         font-size: 17px;
+                }
+                .dataTables_info {
+                    float: left;
+                    font-size: 17px;
+                }
+                .dataTables_paginate{
+                    float: right;
+                    font-size: 17px;
+                }
+                .table {
+                    float: left;
+                    font-size: 17px;
+                }
+</style>
 <body class="vertical-layout vertical-menu-modern 2-columns   fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
-
-
-      
-
-
-
         <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
             <div class="main-menu-content">
                 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                  
-                    </li>               
-                
-                            
+                                              
                 </ul>
             </div>
+        </div>    
+        <div class="container-fuid"> 
+            @yield('content')         
         </div>
-    
-        <div class="container-fuid">        
-                   
-            @yield('content')
-
-         
-          </div>
     </div> 
  
     <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-semi-light bg-info navbar-shadow">
@@ -86,7 +104,7 @@
             <div class="navbar-header">
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mobile-menu d-lg-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
-                    <li class="nav-item mr-auto"><a class="navbar-brand" href="">
+                    <li class="nav-item mr-auto"><a class="navbar-brand" href="{{url('home')}}">
                         <img class="brand-logo" alt="modern admin logo" src="{{ asset('/img/logo/Zooshi.png') }}" style="height:40px; width:40px;" style="opacity: .8">
                     
                             <h3 class="brand-text">Zooshi-Center</h3>
@@ -283,14 +301,14 @@
                 <li class=" nav-item"><a href="#"><i class="fas fa-swatchbook"></i><span class="menu-title" data-i18n="Components">งานเอกสาร</span></a>
                     <ul class="menu-content">                      
                         </li>
-                        <li><a class="menu-item" href="{{url('document/index_recieve')}}">
+                        <li><a class="menu-item" href="{{url('document/index_recieve/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}">
                             <i class="fas fa-swatchbook nav-icon mr-1"></i>
                             หนังสือเข้า
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <span class="badge badge-info right">&nbsp;{{ $user_a }}&nbsp;</span>
                          </a>
                         </li>
-                        <li><a class="menu-item" href="{{url('document/index_send')}}">
+                        <li><a class="menu-item" href="{{url('document/index_send/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}">
                             <i class="fas fa-paper-plane nav-icon mr-1"></i>
                             หนังสือส่ง
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -300,7 +318,7 @@
                        
                     </ul>
                 </li>
-                <li class=" nav-item"><a href="#"><i class="fas fa-swatchbook"></i><span class="menu-title" data-i18n="Components">คลังยา</span></a>
+                <li class=" nav-item"><a href="#"><i class="fas fa-store"></i><span class="menu-title" data-i18n="Components">คลังยา</span></a>
                     <ul class="menu-content">                      
                         </li>
                         <li><a class="menu-item" href="{{ url('supplier/supindex/'.(Auth::user()->store_id).'/'.(Auth::user()->id))}}">

@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateSubscribeTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    { 
+        if (!Schema::hasTable('subscribes'))
+        {
+        Schema::create('subscribes', function (Blueprint $table) {
+            $table->id();
+            $table->string('email');         
+            $table->dateTime("updated_at");
+            $table->dateTime("created_at"); 
+        });
+    }
+}
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('subscribe');
+    }
+}

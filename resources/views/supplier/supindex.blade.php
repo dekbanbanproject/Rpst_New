@@ -61,7 +61,7 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap shadow-lg">
                                         <div class="table-responsive">
-                                            <table id="example" class="table table-striped table-bordered sourced-data" >                                   
+                                            <table id="example" class="table table-striped table-bordered sourced-data" width="100%">                                   
                                                 <thead>
                                                     <tr>
                                                         <th class="border-top-0" style="text-align: center;color:#7B0099" width="3%">ลำดับ</th>

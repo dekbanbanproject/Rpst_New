@@ -18,6 +18,7 @@ use App\Rent;
 use App\Contact;
 use Image;
 use PDF;
+use App\Models\Subscribe;
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -168,7 +169,8 @@ class FontendController extends Controller
     $per_co3 = Person::where('house_regist_type_id','=','3')->count();
     $per_co4 = Person::where('house_regist_type_id','=','4')->count();
 
-      return view('Mainpage.mainpage_clinic_font',[
+    //   return view('Mainpage.mainpage_clinic_font',[
+    return view('wellcome',[
             'data_hos'=>$data_hos,'per_co1'=>$per_co1, 'per_co2'=>$per_co2, 'per_co3'=>$per_co3, 'per_co4'=>$per_co4,
             'per_count'=>$per_count, 'per_sum'=>$per_sum,'per_480'=>$per_480,'per_sss'=>$per_sss,'data_L'=>$data_L,'data_UC'=>$data_UC,'data_den'=>$data_den,'data_narmal'=>$data_narmal,
             'data_rung'=>$data_rung, 'data_marda'=>$data_marda, 'data_dekdee'=>$data_dekdee, 'data_phan'=>$data_phan,'data_jit'=>$data_jit,'data_orther'=>$data_orther,
@@ -317,6 +319,19 @@ class FontendController extends Controller
                     curl_close( $chOne );
 
                 return redirect()->route('Per.welcome');
+    }
+    public function subscribe_indexsave(Request $request)
+    {     
+        $subscribe= new Subscribe();
+        $subscribe->email = $request->email;       
+        $subscribe->save();
+       
+        // if (!$subscribe) {
+        //     Toastr::error('ไม่สำเร็จ', 'Title', ["positionClass" => "toast-top-center"]);
+        //     return redirect()->back();
+        // }
+        // Toastr::success('Finish', 'Subscribe', ["positionClass" => "toast-top-center"]);
+        return redirect()->route('Per.welcome');
     }
 
 }
