@@ -1,4 +1,4 @@
-@extends('layouts.adminlte_home')
+@extends('layouts.adminhome')
 
 @section('content')
 <script>

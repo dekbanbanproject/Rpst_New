@@ -22,18 +22,18 @@ class CreateClinicDrugTable extends Migration
             $table->text('DRUG_STRENGTH')->nullable();
             $table->string('DRUG_UNIT')->nullable();
             $table->binary('DRUG_IMG')->nullable();
-            $table->float('DRUG_UNIT_PRICE',10,2);
-            $table->float('DRUG_UNIT_PRICE_COST',10,2);
+            $table->float('DRUG_UNIT_PRICE',10,2)->nullable();
+            $table->float('DRUG_UNIT_PRICE_COST',10,2)->nullable();
             $table->string('DRUG_STORE')->nullable();
             $table->string('DRUG_DID')->nullable();
             $table->text('THERAPEUTIC')->nullable();
             $table->boolean('STATUS')->default(true);
-            $table->string('CAT_ID');
+            $table->string('CAT_ID')->nullable();
             $table->string('DRUG_RECIEVE_QTY')->nullable();
             $table->string('DRUG_RECIEVE_QTY_UPDATE')->nullable();
-            $table->float('DRUG_SYM_PAY',10,2);
+            $table->float('DRUG_SYM_PAY',10,2)->nullable();
             $table->string('DRUG_PAY_QTY_UPDATE')->nullable();
-            $table->float('DRUG_TOTAL',10,2);
+            $table->float('DRUG_TOTAL',10,2)->nullable();
             $table->timestamps();
         });
     }
